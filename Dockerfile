@@ -3,6 +3,8 @@ ENV GO111MODULE=on
 ENV CGO_ENABLED=0
 ENV GOOS=linux
 
+ARG RELEASE_VERSION=undefined
+
 RUN apk add --no-cache make git
 
 WORKDIR /go/src/github.com/supabase/auth
@@ -15,7 +17,7 @@ RUN make deps
 COPY . /go/src/github.com/supabase/auth
 
 # Make sure you change the RELEASE_VERSION value before publishing an image.
-RUN RELEASE_VERSION=unspecified make build
+RUN RELEASE_VERSION=$RELEASE_VERSION make build
 
 FROM alpine:3.20
 RUN adduser -D -u 1000 supabase
